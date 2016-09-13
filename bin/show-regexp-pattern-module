@@ -1,0 +1,80 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010001;
+use strict 'subs', 'vars';
+use warnings;
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+$SPEC{app} = {
+    v => 1.1,
+    summary => 'Show declaration from Regexp::Pattern::* module',
+    args => {
+        name => {
+            schema => ['str*', match=>'\A\w+(::\w+)*\z'], # perl::mod
+            pos => 0,
+            completion => sub {
+                my %args = @_;
+                require Complete::Module;
+                Complete::Module::complete_module(
+                    word => $args{word},
+                    ns_prefix => 'Regexp::Pattern',
+                );
+            },
+        },
+        list => {
+            schema => ['bool', is=>1],
+            cmdline_aliases => {l=>{}},
+        },
+    },
+};
+sub app {
+    my %args = @_;
+
+    my $name = $args{name};
+
+    if ($args{list}) {
+        my @res;
+        require PERLANCAR::Module::List;
+        my $res = PERLANCAR::Module::List::list_modules(
+            'Regexp::Pattern::', {list_modules=>1, recurse=>1});
+        for (sort keys %$res) {
+            s/\ARegexp::Pattern:://;
+            push @res, $_;
+        }
+        return [200, "OK", \@res];
+    } elsif ($name) {
+        $name =~ /\A\w+(::\w+)*\z/
+            or return [400, "Invalid module name '$name'"];;
+        $name = "Regexp::Pattern::$name";
+        (my $name_pm = "$name.pm") =~ s!::!/!g;
+        require $name_pm;
+        my $var = \%{"$name\::RE"};
+        if ($args{-cmdline} &&
+                ($args{-cmdline_r}{format} // 'text') =~ /text/) {
+            require Data::Dump::Color;
+            return [200, "OK", Data::Dump::Color::dump($var) . "\n",
+                    {'cmdline.skip_format'=>1}];
+        } else {
+            return [200, "OK", $sch];
+        }
+    } else {
+        return [400, "Please specify name of a Regexp Pattern module (or -l)"];
+    }
+}
+
+Perinci::CmdLine::Any->new(
+    url => '/main/app',
+    pass_cmdline_object => 1,
+)->run;
+
+# ABSTRACT:
+# PODNAME:
+
+=head1 SEE ALSO
+
+L<list-regexp-pattern-modules>

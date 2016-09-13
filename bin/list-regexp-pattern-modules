@@ -1,0 +1,34 @@
+#!perl
+
+# DATE
+# VERSION
+
+#use 5.010001;
+use strict;
+use warnings;
+
+use PERLANCAR::Module::List;
+
+my $res = PERLANCAR::Module::List::list_modules(
+    'Regexp::Pattern::', {list_modules=>1, recurse=>1});
+for (sort keys %$res) {
+    s/\ARegexp::Pattern:://;
+    print "$_\n";
+}
+
+# ABSTRACT: List all installed Regexp::Pattern::* modules
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % list-regexp-pattern-modules
+
+
+=head1 DESCRIPTION
+
+This is a simple script to list all installed C<Regexp::Pattern::*> modules.
+
+
+=head1 SEE ALSO
+
+L<show-regexp-pattern-module>

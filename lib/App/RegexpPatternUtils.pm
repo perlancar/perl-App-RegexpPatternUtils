@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 1;
-# ABSTRACT:
+# ABSTRACT: CLI utilities related to Regexp::Pattern
 
 =head1 SYNOPSIS
 

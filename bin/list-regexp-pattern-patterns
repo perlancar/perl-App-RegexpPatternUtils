@@ -1,0 +1,101 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010001;
+use strict 'subs', 'vars';
+use warnings;
+
+use Perinci::CmdLine::Any;
+use Perinci::Sub::Gen::AccessTable qw(gen_read_table_func);
+
+our %SPEC;
+
+my $res = gen_read_table_func(
+    name => 'list_regexp_pattern_patterns',
+    summary => 'List Regexp::Pattern::* patterns',
+    table_spec => {
+        fields => {
+            module => {
+                schema => 'str*',
+                pos => 0,
+                sortable => 1,
+            },
+            name => {
+                schema => 'str*',
+                pos => 1,
+                sortable => 1,
+            },
+            summary => {
+                schema => 'str*',
+                pos => 2,
+            },
+            pattern => {
+                schema => 'str',
+                pos => 3,
+            },
+            is_dynamic => {
+                schema => 'bool*',
+                pos => 4,
+            },
+            dynamic_args => {
+                schema => 'str',
+                pos => 5,
+            },
+        },
+        pk => 'name',
+    },
+    table_data => sub {
+        require PERLANCAR::Module::List;
+
+        my ($query) = @_;
+
+        my $res = PERLANCAR::Module::List::list_modules(
+            'Regexp::Pattern::', {list_modules=>1, recurse=>1});
+
+        #use DD; dd $query;
+
+        my @res;
+        for my $mod (sort keys %$res) {
+            next if defined $query->{args}{"module.is"} &&
+                $query->{args}{"module.is"} ne $mod;
+            (my $mod_pm = "$mod.pm") =~ s!::!/!g;
+            require $mod_pm;
+
+            my $var = \%{"$mod\::RE"};
+
+            for my $patname (sort keys %$var) {
+                my $patspec = $var->{$patname};
+                my $rec = {
+                    module => $mod,
+                    name => $patname,
+                    summary => $patspec->{summary},
+                };
+                if ($patspec->{gen}) {
+                    $rec->{is_dynamic} = 1;
+                    $rec->{dynamic_args} =
+                        join(",", sort keys %{$patspec->{gen_args} // {}});
+                } else {
+                    $rec->{is_dynamic} = 0;
+                    $rec->{pattern} = "$patspec->{pat}";
+                }
+                push @res, $rec;
+            }
+        }
+        return {data=>\@res};
+    },
+);
+die "Can't generate function: $res->[0] - $res->[1]" unless $res->[0] == 200;
+
+Perinci::CmdLine::Any->new(
+    url => '/main/list_regexp_pattern_patterns',
+)->run;
+
+# ABSTRACT:
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % list-regexp-pattern-patterns
+ % list-regexp-pattern-patterns -l

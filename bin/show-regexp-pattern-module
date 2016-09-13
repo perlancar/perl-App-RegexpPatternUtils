@@ -60,7 +60,7 @@ sub app {
             return [200, "OK", Data::Dump::Color::dump($var) . "\n",
                     {'cmdline.skip_format'=>1}];
         } else {
-            return [200, "OK", $sch];
+            return [200, "OK", $var];
         }
     } else {
         return [400, "Please specify name of a Regexp Pattern module (or -l)"];

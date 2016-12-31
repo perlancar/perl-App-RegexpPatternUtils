@@ -1,0 +1,79 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010001;
+use strict 'subs', 'vars';
+use warnings;
+use Perinci::CmdLine::Any;
+
+use Regexp::Pattern;
+
+our %SPEC;
+
+$SPEC{app} = {
+    v => 1.1,
+    summary => 'Get a Regexp::Pattern::* pattern',
+    args => {
+        name => {
+            summary => "Name of pattern, with module prefix but without the 'Regexp::Pattern'",
+            schema => ['str*', match=>'\A\w+((::|/|\.)\w+)+\z'],
+            req => 1,
+            pos => 0,
+            completion => sub {
+                my %args = @_;
+                require Complete::Regexp::Pattern;
+                Complete::Regexp::Pattern::complete_regexp_pattern_pattern(
+                    word => $args{word},
+                );
+            },
+        },
+        gen_args => {
+            'x.name.is_plural' => 1,
+            'x.name.singular' => 'gen_arg',
+            summary => 'Supply generator arguments',
+            description => <<'_',
+
+If pattern is a dynamic pattern (generated on-demand) and the generator requires
+some arguments, you can supply them here.
+
+_
+            schema => ['hash*', of=>'str*'],
+        },
+    },
+    examples => [
+        {
+            args => {name=>'YouTube/video_id'},
+        },
+    ],
+};
+sub app {
+    my %args = @_;
+
+    my $name = $args{name};
+    $name =~ s!(/|\.)!::!g;
+
+    my $re = re($name, $args{gen_args} // {});
+
+    if (-t STDOUT && $args{-cmdline} &&
+            ($args{-cmdline_r}{format} // 'text') =~ /text/) {
+        require Data::Dump::Color;
+        return [200, "OK", Data::Dump::Color::dump($re) . "\n",
+                {'cmdline.skip_format'=>1}];
+    } else {
+        return [200, "OK", "$re"];
+    }
+}
+
+Perinci::CmdLine::Any->new(
+    url => '/main/app',
+    pass_cmdline_object => 1,
+)->run;
+
+# ABSTRACT:
+# PODNAME:
+
+=head1 SEE ALSO
+
+L<list-regexp-pattern-modules>

@@ -1,5 +1,3 @@
-Revision history for App-RegexpPatternUtils
-
 0.002   2016-12-31 (PERLANCAR)
 
 	- Add utility: get-regexp-pattern-pattern.

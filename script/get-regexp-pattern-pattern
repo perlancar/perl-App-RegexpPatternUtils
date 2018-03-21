@@ -46,6 +46,14 @@ _
         {
             args => {name=>'YouTube/video_id'},
         },
+        {
+            summary=>"Generate variant A of Example::re3",
+            argv => ['Example::re3', '--gen-arg', 'variant=A'],
+        },
+        {
+            summary=>"Generate variant B of Example::re3",
+            argv => ['Example::re3', '--gen-arg', 'variant=B'],
+        },
     ],
 };
 sub app {

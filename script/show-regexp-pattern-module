@@ -70,6 +70,8 @@ sub app {
 Perinci::CmdLine::Any->new(
     url => '/main/app',
     pass_cmdline_object => 1,
+    read_config => 0,
+    read_env => 0,
 )->run;
 
 # ABSTRACT:

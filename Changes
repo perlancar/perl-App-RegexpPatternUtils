@@ -1,4 +1,4 @@
-0.003   2018-03-21 (PERLANCAR)
+0.003   2018-03-21  Released-By: PERLANCAR
 
 	- [doc] get-regexp-pattern-pattern: Add/fix command-line examples
 	  to be clearer (RT#124833).
@@ -6,11 +6,11 @@
 	- [ux] Simplify CLI's: no need to read configuration or ENV vars.
 
 
-0.002   2016-12-31 (PERLANCAR)
+0.002   2016-12-31  Released-By: PERLANCAR
 
 	- Add utility: get-regexp-pattern-pattern.
 
 
-0.001   2016-09-13 (PERLANCAR)
+0.001   2016-09-13  Released-By: PERLANCAR
 
         - First release.

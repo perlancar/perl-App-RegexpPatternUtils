@@ -1,6 +1,8 @@
 #!perl
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -39,8 +41,8 @@ sub app {
 
     if ($args{list}) {
         my @res;
-        require PERLANCAR::Module::List;
-        my $res = PERLANCAR::Module::List::list_modules(
+        require Module::List::Tiny;
+        my $res = Module::List::Tiny::list_modules(
             'Regexp::Pattern::', {list_modules=>1, recurse=>1});
         for (sort keys %$res) {
             s/\ARegexp::Pattern:://;
@@ -72,6 +74,7 @@ Perinci::CmdLine::Any->new(
     pass_cmdline_object => 1,
     read_config => 0,
     read_env => 0,
+    use_locale => 1,
 )->run;
 
 # ABSTRACT:

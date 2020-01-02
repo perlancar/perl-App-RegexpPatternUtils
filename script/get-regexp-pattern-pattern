@@ -1,6 +1,8 @@
 #!perl
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -79,6 +81,7 @@ Perinci::CmdLine::Any->new(
     pass_cmdline_object => 1,
     read_config => 0,
     read_env => 0,
+    use_locale => 1,
 )->run;
 
 # ABSTRACT:

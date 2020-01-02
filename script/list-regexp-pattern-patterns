@@ -1,6 +1,8 @@
 #!perl
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -47,11 +49,11 @@ my $res = gen_read_table_func(
         pk => 'name',
     },
     table_data => sub {
-        require PERLANCAR::Module::List;
+        require Module::List::Tiny;
 
         my ($query) = @_;
 
-        my $res = PERLANCAR::Module::List::list_modules(
+        my $res = Module::List::Tiny::list_modules(
             'Regexp::Pattern::', {list_modules=>1, recurse=>1});
 
         #use DD; dd $query;
@@ -92,6 +94,7 @@ Perinci::CmdLine::Any->new(
     url => '/main/list_regexp_pattern_patterns',
     read_config => 0,
     read_env => 0,
+    use_locale => 1,
 )->run;
 
 # ABSTRACT:

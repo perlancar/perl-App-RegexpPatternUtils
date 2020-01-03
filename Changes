@@ -1,3 +1,29 @@
+0.004   2020-01-03  Released-By: PERLANCAR; Urgency: medium
+
+        [new]
+
+        - Add utilities match-with-regexp-pattern, rpgrep.
+
+	[script get-regexp-pattern-pattern]
+
+        - Enable use_utf8 flag in Perinci::CmdLine to avoid 'Wide character in
+          print' warning when regexp contains non-ASCII characters. [GH#1].
+
+        [script list-regexp-pattern-patterns]
+
+        - Add 'tags' field.
+
+        - Rename 'dynamic_args' field to 'gen_args'.
+
+	[internal]
+
+        - Move get-regexp-pattern-pattern and list-regexp-pattern-modules
+	  implementation to App::RegexpPatternUtils.
+
+	- Replace PERLANCAR::Module::List with
+	  Module::List::Tiny.
+
+
 0.003   2018-03-21  Released-By: PERLANCAR
 
 	- [doc] get-regexp-pattern-pattern: Add/fix command-line examples

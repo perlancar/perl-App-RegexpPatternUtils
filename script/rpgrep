@@ -1,3 +1,5 @@
+#!perl
+
 ## no critic: InputOutput::RequireBriefOpen
 
 # AUTHORITY
@@ -97,3 +99,4 @@ $cli->run;
 
 1;
 # ABSTRACT:
+# PODNAME:

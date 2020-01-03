@@ -41,9 +41,13 @@ my $res = gen_read_table_func(
                 schema => 'bool*',
                 pos => 4,
             },
-            dynamic_args => {
+            gen_args => {
                 schema => 'str',
                 pos => 5,
+            },
+            tags => {
+                schema => 'str',
+                pos => 6,
             },
         },
         pk => 'name',
@@ -73,10 +77,11 @@ my $res = gen_read_table_func(
                     module => $mod,
                     name => $patname,
                     summary => $patspec->{summary},
+                    tags => join(",", @{ $patspec->{tags} // [] }),
                 };
                 if ($patspec->{gen}) {
                     $rec->{is_dynamic} = 1;
-                    $rec->{dynamic_args} =
+                    $rec->{gen_args} =
                         join(",", sort keys %{$patspec->{gen_args} // {}});
                 } else {
                     $rec->{is_dynamic} = 0;

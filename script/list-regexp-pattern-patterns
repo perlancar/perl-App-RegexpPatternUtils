@@ -109,3 +109,4 @@ Perinci::CmdLine::Any->new(
 
  % list-regexp-pattern-patterns
  % list-regexp-pattern-patterns -l
+ % list-regexp-pattern-patterns -l --exclude-field pattern

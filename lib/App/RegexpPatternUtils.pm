@@ -173,8 +173,3 @@ sub match_with_regexp_pattern {
 This distribution includes several utilities related to L<Regexp::Pattern>:
 
 #INSERT_EXECS_LIST
-
-
-=head1 SEE ALSO
-
-L<rpgrep> from L<App::rpgrep>

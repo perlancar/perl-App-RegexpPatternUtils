@@ -1,3 +1,11 @@
+0.006   2021-06-27  Released-By: PERLANCAR; Urgency: low
+
+        - No functional changes.
+
+        - [build] Rebuild to tweak usage of CLIs (ref:
+          Perinci::Sub::To::CLIDocData 0.294).
+
+
 0.005   2021-06-27  Released-By: PERLANCAR; Urgency: medium
 
 	- [cli show-regexp-pattern-module] Tweak Rinci metadata, add

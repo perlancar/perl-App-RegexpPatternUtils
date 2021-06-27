@@ -17,6 +17,7 @@ $SPEC{app} = {
     summary => 'Show declaration from Regexp::Pattern::* module',
     args => {
         name => {
+            summary => 'Regexp::Pattern::* module without the "Regexp::Pattern::" prefix',
             schema => 'perl::modname*',
             pos => 0,
             completion => sub {
